@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import api from '../services/api'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -13,7 +14,17 @@ import Container from '@material-ui/core/Container'
 
 
 export default function SignUp() {
+  const [user, setUser] = useState('')
   const classes = useStyles()
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    const response = await api.post('/auth/register', {
+      user,
+    })
+  }
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -25,12 +36,12 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
-                name="firstName"
+                name="name"
                 variant="outlined"
                 required
                 fullWidth
@@ -46,7 +57,7 @@ export default function SignUp() {
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lastName"
+                name="lastname"
                 autoComplete="lname"
               />
             </Grid>
@@ -79,6 +90,7 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             color="primary"
+            onChange={e => setUser(e.target.value)}
             className={classes.submit}
           >
             Sign Up
