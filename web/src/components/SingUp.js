@@ -14,14 +14,21 @@ import Container from '@material-ui/core/Container'
 
 
 export default function SignUp() {
-  const [user, setUser] = useState('')
+  const [name, setName] = useState('')
+  const [lastname, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
   const classes = useStyles()
 
   async function handleSubmit(e) {
     e.preventDefault()
 
-    const response = await api.post('/auth/register', {
-      user,
+    const response = await api.post('http://localhost:3001/auth/register', {
+      name,
+      lastname,
+      email,
+      password
     })
   }
 
@@ -36,7 +43,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
+        <form className={classes.form}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -47,6 +54,7 @@ export default function SignUp() {
                 fullWidth
                 id="firstName"
                 label="First Name"
+                onChange={e => setName(e.target.value)}
                 autoFocus
               />
             </Grid>
@@ -58,6 +66,7 @@ export default function SignUp() {
                 id="lastName"
                 label="Last Name"
                 name="lastname"
+                onChange={e => setLastName(e.target.value)}
                 autoComplete="lname"
               />
             </Grid>
@@ -69,6 +78,7 @@ export default function SignUp() {
                 id="email"
                 label="Email Address"
                 name="email"
+                onChange={e => setEmail(e.target.value)}
                 autoComplete="email"
               />
             </Grid>
@@ -81,6 +91,7 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
+                onChange={e => setPassword(e.target.value)}
                 autoComplete="current-password"
               />
             </Grid>
@@ -90,7 +101,7 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             color="primary"
-            onChange={e => setUser(e.target.value)}
+            onSubmit={handleSubmit}
             className={classes.submit}
           >
             Sign Up
